@@ -25,7 +25,7 @@ int main(int argc, const char * argv[]) {
     int FieldNum=0;     //각 지뢰밭에 대한 필드 번호
     cin >> M >> N;
 
-    while(M<=100&&N>0){
+    while(M!=0&&N!=0){
         FieldNum++;
         cout << "Field #"<<FieldNum<<":"<<endl;
         char array[M][N];   //배열 생성
@@ -63,8 +63,10 @@ int main(int argc, const char * argv[]) {
             }
             cout << endl;
         }
-        cout << endl;
-    cin >> M >> N;
+        cin >> M >> N;
+        
+        if(M!=0&&N!=0)
+            cout << endl;
     }
     return 0;
 }
