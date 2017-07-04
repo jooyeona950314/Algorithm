@@ -18,7 +18,7 @@
  1. 학생 수를 입력받음.
  2. 학생들이 지불한 값을 입력받음.
  3. 모든 학생이 지불한 값의 평균값을 구함.
- 4. 평균값 이하로 지불한 학생들을 선발하여 평균값에서 그 학생들이 지불한 금액의 차액을 모두 합산
+ 4. 평균값 이상으로 지불한 학생들을 선발하여 그 학생들이 지불한 금액에서 평균값의 차액을 모두 합산
  */
 
 #include <cmath>
@@ -34,28 +34,35 @@ int main(int argc, const char * argv[]) {
     
     while(studentNum!=0)
     {
-        float average=0.0;
+        float sum=0.0;
         float array[studentNum];
-        
+        int average;
+        float floorAverage;
         for(int i = 0 ; i < studentNum; i++){
-            cin >> array[i];
-            average+=array[i];
+            cin>>array[i];
+            sum+=array[i];
         }
         
+       /* average=(sum/studentNum)*100;
+        floorAverage=average/100.0;
+        */
         
-        average=(int)(average/studentNum);
-        
-        float sum=0.0;
+        floorAverage=sum/studentNum;
+        float answer=0.0;
         for(int i = 0 ; i < studentNum ; i++){
-            if(array[i]<average){
-                sum+=average-array[i];
+            if(array[i]>floorAverage){
+                answer+=array[i]-floorAverage;
+                
+                cout<< floorAverage <<"    " << (int)floorAverage<<endl;
+                if(floorAverage==(int)floorAverage){
+                    //answer+=0.001;
+                }
             }
         }
         
         cout<<fixed;         //소수점 고정
         cout.precision(2);
-        
-        cout << "$" << sum << endl;
+        cout << "$" << answer << endl;
         
         cin >> studentNum;
     }
