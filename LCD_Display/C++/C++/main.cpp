@@ -9,21 +9,20 @@
 /* 문제 : 한 친구가 방금 새 컴퓨터를 샀다. 그 친구가 지금까지 샀던 가장 강력한 컴퓨터는 공학용 전자 계산기였다. 그런데 그 친구는 새 컴퓨터의 모니터보다 공학용 계산기에 있는 LCD 디스플레이가 더 좋다며 크게 실망하고 말았다. 그 친구를 만족시킬 수 있도록 숫자를 LCD 디스플레이 방식으로 출력하는 프로그램을 만들어보자.
  
  문제 해결 :
- 1. 배열을 만든다
- 2. 입력받은 숫자에 따라서 배열에 추가한다.
- 3. 배열 전체를 출력한다.
+1. 숫자의 크기와 출력하려는 숫자를 입력받는다.
+ 2. 입력받은 숫자를 하나씩 출력한다.
+ 3. 이때 출력할 숫자를 5구간으로 나누어 출력한다.
  */
 
 #include <iostream>
 using namespace std;
 
-void segment1(int s, int at);
-void segment2(int s, int at);
-void segment3(int s, int at);
-void segment4(int s, int at);
-void segment5(int s, int at);
-void segment6(int s, int at);
-void segment7(int s, int at);
+void printHorizon(int s);
+void printEmptyHorizon(int s);
+void printSideVertical(int s);
+void printEmptySideVertical(int s);
+void printLeftVertical(int s);
+void printRightVertical(int s);
 
 int main(int argc, const char * argv[]) {
     int s=0;                //s: 숫자를 표시하는 크기
@@ -32,20 +31,114 @@ int main(int argc, const char * argv[]) {
     cin >> s >> inputNum;   //s, inputNum을 입력받음
     
     while(s!=0 || inputNum!="0"){
-        //배열 생성
-        char array[2*s+3][(s+2)*inputNum.length()+inputNum.length()-1];
         
-        for(int i = 0 ; i < inputNum.length();i++){
-            switch (inputNum.at(i)) {
-                case '0':
-                    break;
+        //세로 행만큼 출력함 이때 i=0 / 0<i<1+s / i=s+1 / s+1<i<2s+2 / i=2s+2 다섯구간으로 나누어 출력함
+        for(int i = 0 ; i < 3+2*s; i++){
+            for(int numAt=0; numAt<inputNum.length(); numAt++){
+                if(i==0){
+                    if(inputNum.at(numAt)!='1'&&inputNum.at(numAt)!='4'){
+                        printHorizon(s);
+                    }
+                    else{
+                        printEmptyHorizon(s);
+                    }
+                }
+                else if(i>0&&i<1+s){
+                    if(inputNum.at(numAt)!='1'&&inputNum.at(numAt)!='2'&&inputNum.at(numAt)!='3'&&inputNum.at(numAt)!='5'&&inputNum.at(numAt)!='6'&&inputNum.at(numAt)!='7'){
+                        printSideVertical(s);
+                    }
+                    else if(inputNum.at(numAt)=='5'||inputNum.at(numAt)=='6'){
+                        printLeftVertical(s);
+                    }
+                    else if(inputNum.at(numAt)=='1'||inputNum.at(numAt)=='2'||inputNum.at(numAt)=='3'||inputNum.at(numAt)=='7'){
+                        printRightVertical(s);
+                    }
+                    else{
+                        printEmptySideVertical(s);
+                    }
                     
-                default:
-                    break;
+                }else if(i==1+s){
+                    if(inputNum.at(numAt)!='1'&&inputNum.at(numAt)!='7'&&inputNum.at(numAt)!='0'){
+                        printHorizon(s);
+                    }
+                    else{
+                        printEmptyHorizon(s);
+                    }
+                }else if(i>1+s&&i<2*s+2){
+                    if(inputNum.at(numAt)!='1'&&inputNum.at(numAt)!='2'&&inputNum.at(numAt)!='3'&&inputNum.at(numAt)!='4'&&inputNum.at(numAt)!='5'&&inputNum.at(numAt)!='7'&&inputNum.at(numAt)!='9'){
+                        printSideVertical(s);
+                    }
+                    else if(inputNum.at(numAt)=='2'){
+                        printLeftVertical(s);
+                    }
+                    else if(inputNum.at(numAt)=='1'||inputNum.at(numAt)=='3'||inputNum.at(numAt)=='4'||inputNum.at(numAt)=='5'||inputNum.at(numAt)=='7'||inputNum.at(numAt)=='9'){
+                        printRightVertical(s);
+                    }
+                    else{
+                        printEmptySideVertical(s);
+                    }
+
+                }else if(i==2*s+2){
+                    if(inputNum.at(numAt)!='1'&&inputNum.at(numAt)!='4'&&inputNum.at(numAt)!='7'){
+                        printHorizon(s);
+                    }
+                    else{
+                        printEmptyHorizon(s);
+                    }
+                }
+                
+                //마지막 숫자가 아니라면 숫자 사이에 공백 출력
+                if(numAt!=inputNum.length()-1){
+                    cout <<" ";
+                }
             }
+            cout <<endl;
         }
-        
+        cout << endl;
         cin >> s >> inputNum;
     }
     
 }
+
+//" --- "을 출력
+void printHorizon(int s){
+    cout << " ";
+    for(int i = 0 ; i < s ; i++){
+        cout << "-";
+    }
+    cout << " ";
+}
+//"     "을 출력
+void printEmptyHorizon(int s){
+    for(int i = 0 ; i < s+2; i++){
+        cout << " ";
+    }
+}
+//"|   |"을 출력
+void printSideVertical(int s){
+    cout <<"|";
+    for(int i = 0 ; i < s ; i++){
+        cout << " ";
+    }
+    cout << "|";
+}
+//"     "을 출력
+void printEmptySideVertical(int s){
+    for(int i = 0 ; i < s+2 ; i++){
+        cout << " ";
+    }
+}
+//"|    "을 출력
+void printLeftVertical(int s){
+    cout <<"|";
+    for(int i = 0 ; i < s+1; i++){
+        cout <<" ";
+    }
+}
+//"    |"을 출력
+void printRightVertical(int s){
+    for(int i = 0 ; i < s+1; i++){
+        cout <<" ";
+    }
+    cout <<"|";
+};
